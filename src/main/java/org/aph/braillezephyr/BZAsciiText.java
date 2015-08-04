@@ -3,12 +3,10 @@ package org.aph.braillezephyr;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.StyledTextContent;
-import org.eclipse.swt.custom.VerifyKeyListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
@@ -54,10 +52,10 @@ public class BZAsciiText {
 	private class KeyHandler implements KeyListener{
 
 		public void keyPressed(KeyEvent event) {
-			styledText.insert(Character.toString(event.character));
+			
 		}
 
-		public void keyReleased(KeyEvent arg0) {
+		public void keyReleased(KeyEvent event) {
 			
 		}
 	}
