@@ -30,8 +30,7 @@ public class BZAsciiText {
 		styledText = new StyledText(shell, SWT.BORDER | SWT.MULTI | SWT.WRAP
 				| SWT.V_SCROLL);
 		styledText.setLayoutData(new GridData(GridData.FILL_BOTH));
-		KeyHandler keyHandler = new KeyHandler();
-		styledText.addKeyListener(keyHandler);
+
 		styledText.addPaintListener(new PaintHandler());
 
 		this.bzStyledText = bzStyledText;
@@ -49,16 +48,6 @@ public class BZAsciiText {
 		return index % linesPerPage == 0;
 	}
 
-	private class KeyHandler implements KeyListener{
-
-		public void keyPressed(KeyEvent event) {
-			
-		}
-
-		public void keyReleased(KeyEvent event) {
-			
-		}
-	}
 
 	private class PaintHandler implements PaintListener {
 		public void paintControl(PaintEvent event) {
