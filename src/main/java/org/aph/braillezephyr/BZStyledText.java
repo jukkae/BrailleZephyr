@@ -17,6 +17,7 @@ package org.aph.braillezephyr;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.custom.StyledTextContent;
 import org.eclipse.swt.custom.VerifyKeyListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -89,6 +90,10 @@ public class BZStyledText
 	public void setFont(Font font)
 	{
 		styledText.setFont(font);
+	}
+	
+	public StyledTextContent getStyledTextContent() {
+		return styledText.getContent();
 	}
 
 	@SuppressWarnings("SameParameterValue")

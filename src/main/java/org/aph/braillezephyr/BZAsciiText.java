@@ -2,6 +2,7 @@ package org.aph.braillezephyr;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.custom.StyledTextContent;
 import org.eclipse.swt.custom.VerifyKeyListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -25,6 +26,8 @@ public class BZAsciiText {
 	private final StyledText styledText;
 	private final Color color;
 	
+	private BZStyledText bzStyledText;
+	
 	public BZAsciiText(Shell shell, BZStyledText bzStyledText) {
 		styledText = new StyledText(shell, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
 		styledText.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -32,6 +35,11 @@ public class BZAsciiText {
 		styledText.addKeyListener(keyHandler);
 		styledText.addVerifyKeyListener(keyHandler);
 		styledText.addPaintListener(new PaintHandler());
+		
+		this.bzStyledText = bzStyledText;
+		
+		StyledTextContent content = bzStyledText.getStyledTextContent();
+		styledText.setContent(content);
 
 		Font font = new Font(styledText.getDisplay(), "Courier", 15, SWT.NORMAL);
 		styledText.setFont(font);
