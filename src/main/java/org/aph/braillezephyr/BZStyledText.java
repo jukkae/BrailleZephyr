@@ -286,7 +286,6 @@ public class BZStyledText
 	{
 		char dotState = 0, dotChar = 0x2800;
 
-		@Override
 		public void keyPressed(KeyEvent event)
 		{
 			switch(event.character)
@@ -330,7 +329,6 @@ public class BZStyledText
 			}
 		}
 
-		@Override
 		public void keyReleased(KeyEvent event)
 		{
 			switch(event.character)
@@ -378,7 +376,6 @@ public class BZStyledText
 
 		private final String asciiBraille = " A1B'K2L@CIF/MSP\"E3H9O6R^DJG>NTQ,*5<-U8V.%[$+X!&;:4\\0Z7(_?W]#Y)=";
 
-		@Override
 		public void verifyKey(VerifyEvent event)
 		{
 			if(event.keyCode == '\r' || event.keyCode == '\n')
@@ -402,7 +399,6 @@ public class BZStyledText
 
 	private class PaintHandler implements PaintListener
 	{
-		@Override
 		public void paintControl(PaintEvent event)
 		{
 			event.gc.setForeground(color);

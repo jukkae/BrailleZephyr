@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Shell;
 public class Main
 {
 	static BZStyledText bzStyledText;
+	static BZAsciiText bzAsciiText;
 
 	public static void main(String args[])
 	{
@@ -38,6 +39,7 @@ public class Main
 
 		new BZMenu(shell);
 		bzStyledText = new BZStyledText(shell);
+		bzAsciiText = new BZAsciiText(shell, bzStyledText);
 
 		shell.open();
 		while(!shell.isDisposed())
