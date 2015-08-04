@@ -20,18 +20,15 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 /**
- *
+ * 
  * @author Mike Gray mgray@aph.org
- * @author Jukka Eerikäinen jukka.eerikainen@aalto.fi
  * 
  */
-public class Main
-{
+public class Main {
 	static BZStyledText bzStyledText;
 	static BZAsciiText bzAsciiText;
 
-	public static void main(String args[])
-	{
+	public static void main(String args[]) {
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(2, true));
@@ -43,11 +40,9 @@ public class Main
 		bzAsciiText = new BZAsciiText(shell, bzStyledText);
 
 		shell.open();
-		while(!shell.isDisposed())
-		{
-			if(!display.readAndDispatch())
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
 				display.sleep();
 		}
 	}
 }
-

@@ -37,13 +37,11 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
-public class BZMenu
-{
+public class BZMenu {
 	private final Shell shell;
 	private String fileName;
 
-	BZMenu(Shell shell)
-	{
+	BZMenu(Shell shell) {
 		this.shell = shell;
 
 		Menu menuBar = new Menu(shell, SWT.BAR);
@@ -52,7 +50,7 @@ public class BZMenu
 		Menu menu;
 		MenuItem item;
 
-		//   file menu
+		// file menu
 		menu = new Menu(menuBar);
 		item = new MenuItem(menuBar, SWT.CASCADE);
 		item.setText("&File");
@@ -77,13 +75,13 @@ public class BZMenu
 		item.setAccelerator(SWT.CONTROL | SWT.SHIFT | 's');
 		item.addSelectionListener(new FileSaveAsHandler());
 
-		//   edit menu
+		// edit menu
 		menu = new Menu(menuBar);
 		item = new MenuItem(menuBar, SWT.CASCADE);
 		item.setText("&Edit");
 		item.setMenu(menu);
 
-		//   view menu
+		// view menu
 		menu = new Menu(menuBar);
 		item = new MenuItem(menuBar, SWT.CASCADE);
 		item.setText("&View");
@@ -93,7 +91,7 @@ public class BZMenu
 		item.setText("Font");
 		item.addSelectionListener(new ViewFontHandler());
 
-		//   format menu
+		// format menu
 		menu = new Menu(menuBar);
 		item = new MenuItem(menuBar, SWT.CASCADE);
 		item.setText("F&ormat");
@@ -112,193 +110,166 @@ public class BZMenu
 		item.setAccelerator(SWT.CONTROL | 'F');
 		item.addSelectionListener(new RewrapFromCursorHandler());
 
-		//   help menu
+		// help menu
 		menu = new Menu(menuBar);
 		item = new MenuItem(menuBar, SWT.CASCADE);
 		item.setText("&Help");
 		item.setMenu(menu);
 	}
 
-	private class FileNewHandler extends SelectionAdapter
-	{
+	private class FileNewHandler extends SelectionAdapter {
 		@Override
-		public void widgetSelected(SelectionEvent event)
-		{
+		public void widgetSelected(SelectionEvent event) {
 			Main.bzStyledText.setText("");
 			fileName = null;
 			shell.setText("BrailleZephyr");
 		}
 	}
 
-	private class FileOpenHandler extends SelectionAdapter
-	{
+	private class FileOpenHandler extends SelectionAdapter {
 		@SuppressWarnings("CallToPrintStackTrace")
 		@Override
-		public void widgetSelected(SelectionEvent event)
-		{
+		public void widgetSelected(SelectionEvent event) {
 			FileDialog dialog = new FileDialog(shell, SWT.OPEN);
-			dialog.setFilterExtensions(new String[]{"*.brf", "*.bzy", "*.*"});
-			dialog.setFilterNames(new String[]{"Braille Ready Format File", "BrailleZephyr File", "All Files"});
+			dialog.setFilterExtensions(new String[] { "*.brf", "*.bzy", "*.*" });
+			dialog.setFilterNames(new String[] { "Braille Ready Format File",
+					"BrailleZephyr File", "All Files" });
 			dialog.setFilterIndex(2);
 			String _fileName = dialog.open();
-			if(_fileName == null)
+			if (_fileName == null)
 				return;
 
-			try
-			{
+			try {
 				FileReader fileReader = new FileReader(_fileName);
-				if(_fileName.endsWith("bzy"))
+				if (_fileName.endsWith("bzy"))
 					Main.bzStyledText.readBZY(fileReader);
 				else
 					Main.bzStyledText.readBRF(fileReader);
 				fileReader.close();
-				shell.setText(new File(_fileName).getName() + " - BrailleZephyr");
-			}
-			catch(IOException e)
-			{
-				//TODO:  do something when this happens (everywhere)
+				shell.setText(new File(_fileName).getName()
+						+ " - BrailleZephyr");
+			} catch (IOException e) {
+				// TODO: do something when this happens (everywhere)
 				e.printStackTrace();
-			}
-			finally
-			{
+			} finally {
 				fileName = _fileName;
 			}
 		}
 	}
 
-	private class FileSaveHandler extends SelectionAdapter
-	{
+	private class FileSaveHandler extends SelectionAdapter {
 		@SuppressWarnings("CallToPrintStackTrace")
 		@Override
-		public void widgetSelected(SelectionEvent event)
-		{
-			if(fileName == null)
-			{
-				//   save as handler never uses event object so just pass it this one
+		public void widgetSelected(SelectionEvent event) {
+			if (fileName == null) {
+				// save as handler never uses event object so just pass it this
+				// one
 				new FileSaveAsHandler().widgetSelected(event);
 				return;
 			}
-			try
-			{
+			try {
 				OutputStreamWriter writer;
-				if(fileName.endsWith("brf"))
-				{
-					writer = new OutputStreamWriter(new FileOutputStream(fileName), Charset.forName("US-ASCII"));
+				if (fileName.endsWith("brf")) {
+					writer = new OutputStreamWriter(new FileOutputStream(
+							fileName), Charset.forName("US-ASCII"));
 					Main.bzStyledText.writeBRF(writer);
-				}
-				else if(fileName.endsWith("bzy"))
-				{
-					writer = new OutputStreamWriter(new FileOutputStream(fileName));
+				} else if (fileName.endsWith("bzy")) {
+					writer = new OutputStreamWriter(new FileOutputStream(
+							fileName));
 					Main.bzStyledText.writeBZY(writer);
-				}
-				else
-				{
-					writer = new OutputStreamWriter(new FileOutputStream(fileName));
+				} else {
+					writer = new OutputStreamWriter(new FileOutputStream(
+							fileName));
 					Main.bzStyledText.writeBRF(writer);
 				}
 				writer.close();
 				shell.setText(new File(fileName).getName() + " - BrailleZephyr");
-			}
-			catch(IOException e)
-			{
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private class FileSaveAsHandler extends SelectionAdapter
-	{
+	private class FileSaveAsHandler extends SelectionAdapter {
 		@SuppressWarnings("CallToPrintStackTrace")
 		@Override
-		public void widgetSelected(SelectionEvent event)
-		{
+		public void widgetSelected(SelectionEvent event) {
 			FileDialog dialog = new FileDialog(shell, SWT.OPEN);
 			dialog.setFileName(fileName);
-			dialog.setFilterExtensions(new String[]{"*.brf", "*.bzy", "*.*"});
-			dialog.setFilterNames(new String[]{"Braille Ready Format File", "BrailleZephyr File", "All Files"});
+			dialog.setFilterExtensions(new String[] { "*.brf", "*.bzy", "*.*" });
+			dialog.setFilterNames(new String[] { "Braille Ready Format File",
+					"BrailleZephyr File", "All Files" });
 			dialog.setFilterIndex(2);
 			String _fileName = dialog.open();
-			if(_fileName == null)
+			if (_fileName == null)
 				return;
 
-			try
-			{
+			try {
 				OutputStreamWriter writer;
-				if(_fileName.endsWith("brf"))
-				{
-					writer = new OutputStreamWriter(new FileOutputStream(_fileName), Charset.forName("US-ASCII"));
+				if (_fileName.endsWith("brf")) {
+					writer = new OutputStreamWriter(new FileOutputStream(
+							_fileName), Charset.forName("US-ASCII"));
 					Main.bzStyledText.writeBRF(writer);
-				}
-				else if(_fileName.endsWith("bzy"))
-				{
-					writer = new OutputStreamWriter(new FileOutputStream(_fileName));
+				} else if (_fileName.endsWith("bzy")) {
+					writer = new OutputStreamWriter(new FileOutputStream(
+							_fileName));
 					Main.bzStyledText.writeBZY(writer);
-				}
-				else
-				{
-					writer = new OutputStreamWriter(new FileOutputStream(_fileName));
+				} else {
+					writer = new OutputStreamWriter(new FileOutputStream(
+							_fileName));
 					Main.bzStyledText.writeBRF(writer);
 				}
 				writer.close();
-				shell.setText(new File(_fileName).getName() + " - BrailleZephyr");
-			}
-			catch(IOException e)
-			{
+				shell.setText(new File(_fileName).getName()
+						+ " - BrailleZephyr");
+			} catch (IOException e) {
 				e.printStackTrace();
-			}
-			finally
-			{
+			} finally {
 				fileName = _fileName;
 			}
 		}
 	}
 
-	private class ViewFontHandler extends SelectionAdapter
-	{
+	private class ViewFontHandler extends SelectionAdapter {
 		@Override
-		public void widgetSelected(SelectionEvent e)
-		{
+		public void widgetSelected(SelectionEvent e) {
 			FontDialog dialog = new FontDialog(shell, SWT.OPEN);
 			dialog.setFontList(Main.bzStyledText.getFont().getFontData());
 			FontData fontData = dialog.open();
-			if(fontData == null)
+			if (fontData == null)
 				return;
 			Main.bzStyledText.setFont(new Font(shell.getDisplay(), fontData));
 		}
 	}
 
-	private static class LinesPerPageHandler extends SelectionAdapter
-	{
+	private static class LinesPerPageHandler extends SelectionAdapter {
 		private final Shell parent;
 
-		private LinesPerPageHandler(Shell parent)
-		{
+		private LinesPerPageHandler(Shell parent) {
 			this.parent = parent;
 		}
 
 		@Override
-		public void widgetSelected(SelectionEvent e)
-		{
+		public void widgetSelected(SelectionEvent e) {
 			new LinesPerPageDialog(parent);
 		}
 	}
 
-	private static class LinesPerPageDialog extends SelectionAdapter
-	{
+	private static class LinesPerPageDialog extends SelectionAdapter {
 		private final Shell shell;
 		private final Button okButton;
 		private final Button cancelButton;
 		private final Spinner spinner;
 
-		public LinesPerPageDialog(Shell parent)
-		{
+		public LinesPerPageDialog(Shell parent) {
 			shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 			shell.setText("Lines per Page");
 			shell.setLayout(new GridLayout(3, true));
 
 			spinner = new Spinner(shell, 0);
 			spinner.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-			spinner.setValues(Main.bzStyledText.getLinesPerPage(), 0, 225, 0, 1, 10);
+			spinner.setValues(Main.bzStyledText.getLinesPerPage(), 0, 225, 0,
+					1, 10);
 
 			okButton = new Button(shell, SWT.PUSH);
 			okButton.setText("OK");
@@ -307,7 +278,8 @@ public class BZMenu
 
 			cancelButton = new Button(shell, SWT.PUSH);
 			cancelButton.setText("Cancel");
-			cancelButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+			cancelButton.setLayoutData(new GridData(
+					GridData.HORIZONTAL_ALIGN_FILL));
 			cancelButton.addSelectionListener(this);
 
 			shell.pack();
@@ -315,10 +287,8 @@ public class BZMenu
 		}
 
 		@Override
-		public void widgetSelected(SelectionEvent event)
-		{
-			if(event.getSource() == okButton)
-			{
+		public void widgetSelected(SelectionEvent event) {
+			if (event.getSource() == okButton) {
 				Main.bzStyledText.setLinesPerPage(spinner.getSelection());
 				Main.bzStyledText.redraw();
 			}
@@ -326,38 +296,34 @@ public class BZMenu
 		}
 	}
 
-	private static class CharsPerLineHandler extends SelectionAdapter
-	{
+	private static class CharsPerLineHandler extends SelectionAdapter {
 		private final Shell parent;
 
-		private CharsPerLineHandler(Shell parent)
-		{
+		private CharsPerLineHandler(Shell parent) {
 			this.parent = parent;
 		}
 
 		@Override
-		public void widgetSelected(SelectionEvent e)
-		{
+		public void widgetSelected(SelectionEvent e) {
 			new CharsPerLineDialog(parent);
 		}
 	}
 
-	private static class CharsPerLineDialog extends SelectionAdapter
-	{
+	private static class CharsPerLineDialog extends SelectionAdapter {
 		private final Shell shell;
 		private final Button okButton;
 		private final Button cancelButton;
 		private final Spinner spinner;
 
-		public CharsPerLineDialog(Shell parent)
-		{
+		public CharsPerLineDialog(Shell parent) {
 			shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 			shell.setText("Characters Per Line");
 			shell.setLayout(new GridLayout(3, true));
 
 			spinner = new Spinner(shell, 0);
 			spinner.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
-			spinner.setValues(Main.bzStyledText.getCharsPerLine(), 0, 27720, 0, 1, 10);
+			spinner.setValues(Main.bzStyledText.getCharsPerLine(), 0, 27720, 0,
+					1, 10);
 
 			okButton = new Button(shell, SWT.PUSH);
 			okButton.setText("OK");
@@ -366,7 +332,8 @@ public class BZMenu
 
 			cancelButton = new Button(shell, SWT.PUSH);
 			cancelButton.setText("Cancel");
-			cancelButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+			cancelButton.setLayoutData(new GridData(
+					GridData.HORIZONTAL_ALIGN_FILL));
 			cancelButton.addSelectionListener(this);
 
 			shell.pack();
@@ -374,10 +341,8 @@ public class BZMenu
 		}
 
 		@Override
-		public void widgetSelected(SelectionEvent event)
-		{
-			if(event.getSource() == okButton)
-			{
+		public void widgetSelected(SelectionEvent event) {
+			if (event.getSource() == okButton) {
 				Main.bzStyledText.setCharsPerLine(spinner.getSelection());
 				Main.bzStyledText.redraw();
 			}
@@ -385,11 +350,9 @@ public class BZMenu
 		}
 	}
 
-	private class RewrapFromCursorHandler extends SelectionAdapter
-	{
+	private class RewrapFromCursorHandler extends SelectionAdapter {
 		@Override
-		public void widgetSelected(SelectionEvent e)
-		{
+		public void widgetSelected(SelectionEvent e) {
 			Main.bzStyledText.rewrapFromCaret();
 		}
 	}

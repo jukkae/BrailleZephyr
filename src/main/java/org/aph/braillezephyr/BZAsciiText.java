@@ -13,11 +13,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * 
- * @author jukkae
- *
- */
 public class BZAsciiText {
 
 	private final static char PARAGRAPH_END = 0xfeff;
@@ -49,7 +44,6 @@ public class BZAsciiText {
 		return index % bzStyledText.linesPerPage == 0;
 	}
 
-
 	private class PaintHandler implements PaintListener {
 		public void paintControl(PaintEvent event) {
 			event.gc.setForeground(color);
@@ -57,7 +51,8 @@ public class BZAsciiText {
 			int lineHeight = styledText.getLineHeight();
 			int drawHeight = styledText.getClientArea().height;
 			int drawWidth = styledText.getClientArea().width;
-			int rightMargin = event.gc.stringExtent(" ").x * bzStyledText.charsPerLine;
+			int rightMargin = event.gc.stringExtent(" ").x
+					* bzStyledText.charsPerLine;
 
 			event.gc.drawLine(rightMargin, 0, rightMargin, drawHeight);
 
