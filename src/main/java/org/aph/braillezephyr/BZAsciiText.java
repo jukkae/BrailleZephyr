@@ -34,7 +34,6 @@ public class BZAsciiText {
 		styledText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		KeyHandler keyHandler = new KeyHandler();
 		styledText.addKeyListener(keyHandler);
-		styledText.addVerifyKeyListener(keyHandler);
 		styledText.addPaintListener(new PaintHandler());
 
 		this.bzStyledText = bzStyledText;
@@ -52,46 +51,13 @@ public class BZAsciiText {
 		return index % linesPerPage == 0;
 	}
 
-	private class KeyHandler implements KeyListener, VerifyKeyListener {
-		char dotState = 0, dotChar = 0x2800;
-
-		public void keyTyped(KeyEvent event) {
-			styledText.insert(Character.toString(event.character));
-		}
-
-		private final String asciiBraille = " A1B'K2L@CIF/MSP\"E3H9O6R^DJG>NTQ,*5<-U8V.%[$+X!&;:4\\0Z7(_?W]#Y)=";
-
-		public void verifyKey(VerifyEvent event) {
-			if (event.keyCode == '\r' || event.keyCode == '\n')
-				if ((event.stateMask & SWT.SHIFT) != 0) {
-					event.doit = false;
-					int index = styledText.getLineAtOffset(styledText
-							.getCaretOffset());
-					String line = styledText.getLine(index);
-					if (line.length() > 0)
-						if (line.charAt(line.length() - 1) != PARAGRAPH_END)
-							styledText.replaceTextRange(
-									styledText.getOffsetAtLine(index),
-									line.length(),
-									line + Character.toString(PARAGRAPH_END));
-						else
-							styledText.replaceTextRange(
-									styledText.getOffsetAtLine(index),
-									line.length(),
-									line.substring(0, line.length() - 1));
-					return;
-				}
-
-			if (event.character > ' ' && event.character < 0x7f)
-				event.doit = false;
-		}
+	private class KeyHandler implements KeyListener{
 
 		public void keyPressed(KeyEvent event) {
 			styledText.insert(Character.toString(event.character));
 		}
 
 		public void keyReleased(KeyEvent arg0) {
-			// TODO Auto-generated method stub
 			
 		}
 	}
