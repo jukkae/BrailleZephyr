@@ -22,7 +22,8 @@ import org.eclipse.swt.widgets.Shell;
 /**
  *
  * @author Mike Gray mgray@aph.org
- *
+ * @author Jukka Eerikäinen jukka.eerikainen@aalto.fi
+ * 
  */
 public class Main
 {
@@ -33,9 +34,9 @@ public class Main
 	{
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setLayout(new GridLayout());
+		shell.setLayout(new GridLayout(2, true));
 		shell.setText("BrailleZephyr");
-		shell.setSize(640, 640);
+		shell.setSize(1240, 800);
 
 		new BZMenu(shell);
 		bzStyledText = new BZStyledText(shell);

@@ -41,8 +41,8 @@ public class BZStyledText
 
 	private final StyledText styledText;
 
-	private int linesPerPage = 25;
-	private int charsPerLine = 40;
+	protected int linesPerPage = 25;
+	protected int charsPerLine = 40;
 	private String eol = System.getProperty("line.separator");
 
 	private final Color color;

@@ -13,13 +13,14 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * 
+ * @author jukkae
+ *
+ */
 public class BZAsciiText {
 
 	private final static char PARAGRAPH_END = 0xfeff;
-
-	private int linesPerPage = 25;
-	private int charsPerLine = 40;
-	private String eol = System.getProperty("line.separator");
 
 	private final StyledText styledText;
 	private final Color color;
@@ -45,7 +46,7 @@ public class BZAsciiText {
 	}
 
 	private boolean isFirstLineOnPage(int index) {
-		return index % linesPerPage == 0;
+		return index % bzStyledText.linesPerPage == 0;
 	}
 
 
@@ -56,7 +57,7 @@ public class BZAsciiText {
 			int lineHeight = styledText.getLineHeight();
 			int drawHeight = styledText.getClientArea().height;
 			int drawWidth = styledText.getClientArea().width;
-			int rightMargin = event.gc.stringExtent(" ").x * charsPerLine;
+			int rightMargin = event.gc.stringExtent(" ").x * bzStyledText.charsPerLine;
 
 			event.gc.drawLine(rightMargin, 0, rightMargin, drawHeight);
 
